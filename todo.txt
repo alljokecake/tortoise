@@ -1,0 +1,4 @@
+* Tab UUID?
+* Figure out how the relation between Tab and the Panel is going to be.
+* Figure out how to store instances of Main or Custom inside of Panel (maybe
+  vectors).
