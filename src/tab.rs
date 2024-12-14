@@ -1,4 +1,7 @@
+use std::path::Path;
+
 // Should be hot-reloadable.
+#[derive(Debug)]
 pub struct Tab {
     // Instead of complicating it, just use an empty String for custom tabs (for
     // now).
@@ -9,31 +12,46 @@ pub struct Tab {
 
     pub label: String,  // Last sorted regex of the path string or custom label
     pub custom: bool,
+    pub uuid: std::primitive::u128,
 }
 
 // custom: false
 impl Tab {
+    // TODO:
     // If the path is in special_directories return corresponding
     // `special_icon`, otherwise return `default_icon`.
     fn get_icon() -> String {
-        todo!()
+        "DOWNLOADS ICON".into()
     }
 
     // Generate label from path. Filter the path and return the last part.
     fn generate_label(path: &str) -> String {
-        todo!()
+        Path::new(path)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or(path)
+        .to_string()
     }
 
-    // Retrieve the default_path from user settings.
+    // TODO: Retrieve the default_path from user settings.
     fn get_default_path() -> String {
-        todo!()
+        "C:\\Users\\ilhan\\Downloads".into()
     }
-
-    // @Redundant?
-    // fn is_custom(&mut self) -> bool {
-    //     self.custom
-    // }
 }
+
+// @Redundant
+// custom: true
+// impl Tab {
+//     pub fn spawn_settings_tab() -> Self {
+//         Self {
+//             path: "".into(),
+//             icon: "SETTINGS ICON".into(), // TODO
+//             label: String::from("Settings"),
+//             custom: true,
+//             uuid: 1,
+//         }
+//     }
+// }
 
 impl Default for Tab {
     fn default() -> Self {
@@ -46,18 +64,12 @@ impl Default for Tab {
             custom: false,
 
             path: default_path,
+            // 
+            // We probably need a hardcoded UUID for the default directory,
+            // stupid to create a different uuid everytime its called.
+            //
+            uuid: 0,
         }
     }
 }
 
-// custom: true
-impl Tab {
-    fn spawn_settings_tab() -> Self {
-        Self {
-            path: "".into(),
-            icon: todo!(), // TODO: Set settings icon.
-            label: String::from("Settings"),
-            custom: true,
-        }
-    }
-}
